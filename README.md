@@ -1,8 +1,8 @@
-<div style="width:60px ; height:60px; margin: 0 auto; margin-bottom: 1rem; margin-top: 1rem">
-
-![Logo](./assets/logo.png)
-
+<div align="center">
+    <img src="./assets/logo.png" alt="codeishot logo" width="100">
+  <br>
 </div>
+
 
 # Codeishot VSCode Extension
 
