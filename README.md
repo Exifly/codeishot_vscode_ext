@@ -3,7 +3,6 @@
   <br>
 </div>
 
-
 # Codeishot VSCode Extension
 
 ## Overview
@@ -29,9 +28,11 @@ To use Codeishot:
 
 1. Open a file in VSCode.
 2. Select the code snippet you want to share.
-3. Execute the `Post Snippet` command (you can bind this to a shortcut for convenience).
+3. Execute the `Codeishot: Share snippet` command (or use `Shift + c` shortcut).
 4. The URL of the posted snippet is automatically copied to your clipboard.
 5. Optionally, click on the pop-up message to open the snippet URL in a browser.
+
+![palette](./assets/cmd_palette.png)
 
 ## Configuration
 
