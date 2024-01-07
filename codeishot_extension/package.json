@@ -1,6 +1,6 @@
 {
-  "name": "codeshot",
-  "displayName": "codeshot",
+  "name": "codeishot",
+  "displayName": "Codeishot",
   "description": "Share you code in one click",
   "version": "0.0.1",
   "engines": {
@@ -15,15 +15,15 @@
     "commands": [
       {
         "command": "extension.postSnippet",
-        "title": "Codeshot: Share snippet"
+        "title": "Codeishot: Share snippet"
       }
     ],
     "keybindings": [
       {
         "command": "extension.postSnippet",
-        "key": "ctrl+shift+l",
+        "key": "shift+c",
         "when": "editorTextFocus",
-        "mac": "cmd+shift+l"
+        "mac": "shift+c"
       }
     ]
   },
