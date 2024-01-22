@@ -1,71 +1,70 @@
-# codeshot README
+<div align="center">
+    <img src="./assets/logo.png" alt="codeishot logo" width="100">
+  <br>
+</div>
 
-This is the README for your extension "codeshot". After writing up a brief description, we recommend including the following sections.
+# Codeishot VSCode Extension
+
+## Overview
+
+Codeishot is a Visual Studio Code extension designed to enhance the coding experience by allowing users to quickly share code snippets directly from the editor. It captures selected text, posts it to a local server, and provides a shareable URL to the user.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- **Snippet Sharing**: Easily share code snippets with a unique URL.
+- **Clipboard Integration**: Automatically copies the snippet URL to the clipboard.
+- **Error Handling**: Comprehensive error messages for a smooth user experience.
+- **Language Support**: Language detection.
 
-For example if there is an image subfolder under your extension project workspace:
+## Installation
 
-\!\[feature X\]\(images/feature-x.png\)
+1. Download the extension from the Visual Studio Code Marketplace.
+2. Install it in your Visual Studio Code editor.
+3. Restart VSCode to activate the extension.
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+## Usage
 
-## Requirements
+To use Codeishot:
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+1. Open a file in VSCode.
+2. Select the code snippet you want to share.
+3. Execute the `Codeishot: Share snippet` command (or use `Shift + c` shortcut).
+4. The URL of the posted snippet is automatically copied to your clipboard.
+5. Optionally, click on the pop-up message to open the snippet URL in a browser.
 
-## Extension Settings
+![palette](./assets/cmd_palette.png)
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+## Configuration
 
-For example:
+- **Base URL**: Set to `https://codeishot.com` by default. Change it in the code if you're using a different server.
+- **API Endpoint**: The extension posts to `https://api.codeishot.com`.
 
-This extension contributes the following settings:
+## Dependencies
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+- `axios`: Used for HTTP requests.
+- `vscode`: VSCode extension API.
+- `path`: For handling file paths.
 
-## Known Issues
+## Contributing
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+Contributions to Codeishot are welcome. Please read our contribution guidelines before submitting a pull request.
 
-## Release Notes
+## License
 
-Users appreciate release notes as you update your extension.
+This project is licensed under MIT License. See the LICENSE file for details.
 
-### 1.0.0
+## Acknowledgments
 
-Initial release of ...
+Special thanks to everyone who contributed to the development and testing of this extension.
 
-### 1.0.1
+## Disclaimer
 
-Fixed issue #.
+This extension is developed as an open-source project. It's not officially affiliated with Visual Studio Code or any other products used or referenced.
 
-### 1.1.0
+## Contact
 
-Added features X, Y, and Z.
+For support or queries, reach out to one of the maintainers.
 
 ---
 
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Codeishot © [2023] by [Codeishot]

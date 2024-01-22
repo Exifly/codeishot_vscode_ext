@@ -3,6 +3,10 @@
   "displayName": "Codeishot",
   "description": "Share you code in one click",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Exifly/codeishot_vscode_ext"
+  },
   "engines": {
     "vscode": "^1.82.0"
   },
