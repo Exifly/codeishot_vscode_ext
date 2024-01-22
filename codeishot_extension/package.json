@@ -1,6 +1,7 @@
 {
   "name": "codeishot",
   "displayName": "Codeishot",
+  "publisher": "codeishot",
   "description": "Share you code in one click",
   "version": "0.0.1",
   "repository": {
