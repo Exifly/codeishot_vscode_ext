@@ -4,7 +4,7 @@
   "publisher": "codeishot",
   "description": "Share you code in one click",
   "icon": "./assets/logo.png",
-  "version": "0.1.0",
+  "version": "0.4.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Exifly/codeishot_vscode_ext"
@@ -34,8 +34,8 @@
     "keybindings": [
       {
         "command": "extension.postSnippet",
-        "key": "alt+shift+c",
-        "mac": "option+shift+c",
+        "key": "ctrl+shift+c",
+        "mac": "ctrl+shift+c",
         "when": "editorTextFocus"
       }
     ]

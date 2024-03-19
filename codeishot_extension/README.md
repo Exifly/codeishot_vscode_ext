@@ -1,8 +1,3 @@
-<div align="center">
-    <img src="./assets/logo.png" alt="codeishot logo" width="100">
-  <br>
-</div>
-
 # Codeishot VSCode Extension
 
 ## Overview
@@ -28,22 +23,11 @@ To use Codeishot:
 
 1. Open a file in VSCode.
 2. Select the code snippet you want to share.
-3. Execute the `Codeishot: Share snippet` command (or use `Shift + c` shortcut).
+3. Execute the `Share on Codeishot` command (or use `Ctrl + Shift + c` shortcut).
 4. The URL of the posted snippet is automatically copied to your clipboard.
 5. Optionally, click on the pop-up message to open the snippet URL in a browser.
 
 ![palette](./assets/cmd_palette.png)
-
-## Configuration
-
-- **Base URL**: Set to `https://codeishot.com` by default. Change it in the code if you're using a different server.
-- **API Endpoint**: The extension posts to `https://api.codeishot.com`.
-
-## Dependencies
-
-- `axios`: Used for HTTP requests.
-- `vscode`: VSCode extension API.
-- `path`: For handling file paths.
 
 ## Contributing
 
@@ -53,18 +37,10 @@ Contributions to Codeishot are welcome. Please read our contribution guidelines 
 
 This project is licensed under MIT License. See the LICENSE file for details.
 
-## Acknowledgments
-
-Special thanks to everyone who contributed to the development and testing of this extension.
-
 ## Disclaimer
 
 This extension is developed as an open-source project. It's not officially affiliated with Visual Studio Code or any other products used or referenced.
 
-## Contact
-
-For support or queries, reach out to one of the maintainers.
-
 ---
 
-Codeishot © [2023] by [Codeishot]
+Codeishot © [2024] by [Codeishot]
