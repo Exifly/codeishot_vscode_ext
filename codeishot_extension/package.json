@@ -34,9 +34,9 @@
     "keybindings": [
       {
         "command": "extension.postSnippet",
-        "key": "shift+c",
-        "when": "editorTextFocus",
-        "mac": "shift+c"
+        "key": "alt+shift+c",
+        "mac": "option+shift+c",
+        "when": "editorTextFocus"
       }
     ]
   },
