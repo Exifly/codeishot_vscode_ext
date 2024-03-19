@@ -21,9 +21,16 @@
     "commands": [
       {
         "command": "extension.postSnippet",
-        "title": "Codeishot: Share snippet"
+        "title": "Share on Codeishot ✨"
       }
     ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "extension.postSnippet"
+        }
+      ]
+    },
     "keybindings": [
       {
         "command": "extension.postSnippet",
