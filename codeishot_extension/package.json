@@ -20,14 +20,22 @@
   "contributes": {
     "commands": [
       {
+        "command": "extension.login",
+        "title": "Login to Codeishot ✨"
+      },
+      {
         "command": "extension.postSnippet",
         "title": "Share on Codeishot ✨"
       }
+
     ],
     "menus": {
       "editor/context": [
         {
           "command": "extension.postSnippet"
+        },
+        {
+          "command": "extension.login"
         }
       ]
     },
@@ -38,7 +46,18 @@
         "mac": "ctrl+shift+c",
         "when": "editorTextFocus"
       }
-    ]
+    ],
+    "configuration": {
+      "type": "string",
+      "title": "Codeishot",
+      "properties": {
+          "jwt": {
+              "type": "string",
+              "default": "",
+              "description": "Token to login into codeishot."
+          }
+      }
+  }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
