@@ -1,10 +1,9 @@
-import * as vscode from 'vscode';
-import * as path from 'path';
-import axios from 'axios';
+import * as vscode from "vscode";
+import * as path from "path";
+import { login } from "./login";
+import { createSnippet } from "./services/codeishotServices";
 
-const UI_BASE_URL: string = process.env.UI_BASE_URL || 'https://codeishot.com';
-const API_BASE_URL: string = process.env.API_BASE_URL || 'https://api.codeishot.com';
-// const csrfToken = process.env.CSRF_TOKEN;
+const UI_BASE_URL: string = process.env.UI_BASE_URL || "https://codeishot.com";
 
 interface PostData {
   title: string;
@@ -28,7 +27,7 @@ function getSelectedText(editor: vscode.TextEditor): string | null {
   const text = editor.document.getText(selection);
 
   if (!text) {
-    vscode.window.showErrorMessage('No text selected');
+    vscode.window.showErrorMessage("No text selected");
     return null;
   }
 
@@ -54,50 +53,36 @@ function getLanguageIdentifier(): string | null {
   return null;
 }
 
+function checkCreateSnippetStatusCode(status: number, data: PostData) {
+  switch (status) {
+    case 400:
+      vscode.window.showWarningMessage(
+        "This language is not available, sending snippet as a Plain Text"
+      );
+      const newRes = postSnippetWithValidatedData(data);
+      return newRes;
+    case 429:
+      vscode.window.showErrorMessage("Too many requests!");
+      break;
+    default:
+      break;
+  }
+}
+
 async function postSnippet(data: PostData): Promise<Snippet> {
-  return await axios
-    .post(API_BASE_URL + '/api/snippets/', data, {
-      headers: {
-        accept: 'application/json',
-        contentType: 'application/json',
-        userAgent: 'codeishot/1.0.0',
-        // 'X-CSRFTOKEN': csrfToken,
-      },
-    })
-    .then((res) => res.data)
-    .catch((error) => {
-      switch (error.response.status) {
-        case 400:
-          // TODO: Handle if status is 400 AND some other check, not only lanuage
-          vscode.window.showWarningMessage('This language is not available, sending snippet as a Plain Text');
-          const newRes = postSnippetWithValidatedData(data);
-          return newRes;
-        case 429:
-          vscode.window.showErrorMessage('Too many requests!');
-          break;
-        default:
-          vscode.window.showErrorMessage(`CODEISHOT_ERROR: ${error}`);
-          break;
-      }
-      vscode.window.showWarningMessage('Please try again!');
-    });
+  let res = await createSnippet(data);
+  if (res.status_code) checkCreateSnippetStatusCode(res.status_code, data);
+  return res.data as Promise<Snippet>;
 }
 
 async function postSnippetWithValidatedData(data: PostData): Promise<Snippet> {
   let plainTextData: PostData = { ...data };
   plainTextData.language = "plaintext";
 
-  return await axios
-    .post(API_BASE_URL + '/api/snippets/', plainTextData, {
-      headers: {
-        accept: 'application/json',
-        contentType: 'application/json',
-        userAgent: 'codeishot/1.0.0',
-      },
-    })
+  return await createSnippet(plainTextData)
     .then((res) => res.data)
     .catch(() => {
-      vscode.window.showWarningMessage('Please try again!');
+      vscode.window.showWarningMessage("Please try again!");
     });
 }
 
@@ -106,49 +91,63 @@ async function handlePostResponse(data: Snippet) {
     const snippetUrl = `${UI_BASE_URL}/${data.id}`;
     try {
       await vscode.env.clipboard.writeText(snippetUrl);
-      vscode.window.showInformationMessage('URL copied to clipboard');
+      vscode.window.showInformationMessage("URL copied to clipboard");
     } catch (error) {
-      vscode.window.showErrorMessage('Error copying URL: ' + error);
+      vscode.window.showErrorMessage("Error copying URL: " + error);
     }
 
-    const infoMessage = await vscode.window.showInformationMessage(snippetUrl, 'Open URL');
-    if (infoMessage === 'Open URL') {
+    const infoMessage = await vscode.window.showInformationMessage(
+      snippetUrl,
+      "Open URL"
+    );
+    if (infoMessage === "Open URL") {
       vscode.env.openExternal(vscode.Uri.parse(snippetUrl));
     }
   }
 }
 
 function activate(context: vscode.ExtensionContext) {
-  let disposable = vscode.commands.registerCommand('extension.postSnippet', async () => {
-    const editor = vscode.window.activeTextEditor;
-    if (!editor) {
-      vscode.window.showErrorMessage('No editor found');
-      return;
-    }
+  let disposable = vscode.commands.registerCommand(
+    "extension.postSnippet",
+    async () => {
+      const editor = vscode.window.activeTextEditor;
+      if (!editor) {
+        vscode.window.showErrorMessage("No editor found");
+        return;
+      }
 
-    const text = getSelectedText(editor);
-    if (!text) {
-      return;
-    }
+      const text = getSelectedText(editor);
+      if (!text) {
+        return;
+      }
 
-    const postData: PostData = {
-      title: getCurrentFileName() || 'untitled',
-      code: text,
-      language: getLanguageIdentifier() || 'python',
-      style: 'androidstudio',
-    };
+      const postData: PostData = {
+        title: getCurrentFileName() || "untitled",
+        code: text,
+        language: getLanguageIdentifier() || "python",
+        style: "androidstudio",
+      };
 
-    try {
-      const data = await postSnippet(postData);
-      await handlePostResponse(data);
-    } catch (error: any) {
-      vscode.window.showErrorMessage('Error: ' + error.message);
+      try {
+        const data = await postSnippet(postData);
+        await handlePostResponse(data);
+      } catch (error: any) {
+        vscode.window.showErrorMessage("Error: " + error.message);
+      }
     }
-  });
+  );
+
+  const loginCommand = vscode.commands.registerCommand(
+    "extension.login",
+    () => {
+      login();
+    }
+  );
 
   context.subscriptions.push(disposable);
+  context.subscriptions.push(loginCommand);
 }
 
-function deactivate() { }
+function deactivate() {}
 
 export { activate, deactivate };
