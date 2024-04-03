@@ -15,7 +15,7 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": ["onUri"],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
@@ -45,6 +45,12 @@
         "key": "ctrl+shift+c",
         "mac": "ctrl+shift+c",
         "when": "editorTextFocus"
+      }
+    ],
+    "uriHandler": [
+      {
+        "scheme": "codeishot.codeishot",
+        "path": "/login"
       }
     ],
     "configuration": {

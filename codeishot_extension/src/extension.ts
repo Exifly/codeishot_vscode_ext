@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import * as path from "path";
-import { login } from "./login";
 import { createSnippet } from "./services/codeishotServices";
+import { saveToken, login } from "./login";
 
 const UI_BASE_URL: string = process.env.UI_BASE_URL || "https://codeishot.com";
 
@@ -146,6 +146,21 @@ function activate(context: vscode.ExtensionContext) {
 
   context.subscriptions.push(disposable);
   context.subscriptions.push(loginCommand);
+  context.subscriptions.push(
+    // vscode://codeishot.codeishot/login?jwt=<token>
+    // TODO: @Cleanup => Move to another file, maybe `handlers.ts`?
+    vscode.window.registerUriHandler({
+      handleUri(uri: vscode.Uri) {
+        if (uri.path === "/login") {
+          const jwtParam = uri.query.split("=")[1];
+          if (jwtParam) {
+            saveToken(jwtParam);
+            vscode.window.showInformationMessage("Logged Successfully! ✨");
+          }
+        }
+      },
+    })
+  );
 }
 
 function deactivate() {}
