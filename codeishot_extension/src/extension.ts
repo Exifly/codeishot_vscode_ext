@@ -154,8 +154,8 @@ function activate(context: vscode.ExtensionContext) {
         if (uri.path === "/login") {
           const jwtParam = uri.query.split("=")[1];
           if (jwtParam) {
-            saveToken(jwtParam);
             vscode.window.showInformationMessage("Logged Successfully! ✨");
+            saveToken(jwtParam);
           }
         }
       },

@@ -33,9 +33,6 @@
       "editor/context": [
         {
           "command": "extension.postSnippet"
-        },
-        {
-          "command": "extension.login"
         }
       ]
     },
