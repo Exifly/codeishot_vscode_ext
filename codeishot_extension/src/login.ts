@@ -2,10 +2,6 @@ import { exit } from "process";
 import * as vscode from "vscode";
 import { verifyToken } from "./services/codeishotServices";
 
-// TODO: Move this to a configuration file
-const API_BASE_URL: string =
-  process.env.API_BASE_URL || "https://api.codeishot.com";
-
 function getTokenFromConfiguration(): string {
   let config = vscode.workspace.getConfiguration();
   if (!config) {
@@ -24,10 +20,10 @@ function getTokenFromConfiguration(): string {
   return token;
 }
 
-function saveToken(token: string) {
+export function saveToken(token: string) {
   vscode.workspace
     .getConfiguration()
-    .update("jwt", token, vscode.ConfigurationTarget.Workspace);
+    .update("jwt", token, vscode.ConfigurationTarget.Global);
 }
 
 async function getTokenFromUser(): Promise<string> {
@@ -44,11 +40,16 @@ async function getTokenFromUser(): Promise<string> {
   return (searchQuery && searchQuery) || "";
 }
 
-async function getToken() {
+async function openLoginBrowser() {
   // open the browser with google login and get the token
+  // TODO: Change the url using .env
+  vscode.env.openExternal(
+    vscode.Uri.parse("http://localhost:3000/login?type=vscode")
+  );
 }
 
 async function isValidToken(): Promise<boolean> {
+  // @Question => is this function really useful?
   let token = getTokenFromConfiguration();
   vscode.window.showInformationMessage(token);
 
@@ -63,14 +64,7 @@ async function isValidToken(): Promise<boolean> {
 }
 
 async function login() {
-  vscode.window.showInformationMessage("Login To codeishot");
-  let token = await getTokenFromUser();
-  if (token !== "") {
-    saveToken(token);
-    if (await isValidToken())
-      vscode.window.showInformationMessage("Logged Successfully! ✨");
-    // TODO: Configure axios interceptor instance to use this token on requests
-  }
+  openLoginBrowser(); // spawn the codeishot login page
 }
 
 export { login, getTokenFromConfiguration };
