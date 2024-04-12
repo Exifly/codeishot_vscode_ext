@@ -4,7 +4,7 @@
   "publisher": "codeishot",
   "description": "Share you code in one click",
   "icon": "./assets/logo.png",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Exifly/codeishot_vscode_ext"
@@ -15,7 +15,9 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": ["onUri"],
+  "activationEvents": [
+    "onUri"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
@@ -27,7 +29,6 @@
         "command": "extension.postSnippet",
         "title": "Share on Codeishot ✨"
       }
-
     ],
     "menus": {
       "editor/context": [
@@ -54,18 +55,18 @@
       "type": "object",
       "title": "Codeishot",
       "properties": {
-          "jwt": {
-              "type": "string",
-              "default": "",
-              "description": "Token to login into codeishot."
-          },
-          "Authentication": {
-            "type": "boolean",
-            "default": false,
-            "description": "Choose whether to authenticate the snippets or not."
-          }
+        "jwt": {
+          "type": "string",
+          "default": "",
+          "description": "Token to login into codeishot."
+        },
+        "Authentication": {
+          "type": "boolean",
+          "default": false,
+          "description": "Choose whether to authenticate the snippets or not."
+        }
       }
-  }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",

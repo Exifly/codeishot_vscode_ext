@@ -5,5 +5,8 @@ out/
 ./out
 out
 
+## Bundlers
+*vsix
+
 ## Testing
 .vscode-test
