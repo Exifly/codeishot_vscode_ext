@@ -1,3 +1,7 @@
+/**
+ * Defines Custom data types and some of their implementations.
+ */
+
 import type {
   AxiosResponse,
   InternalAxiosRequestConfig,
