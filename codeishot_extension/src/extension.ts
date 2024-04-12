@@ -1,6 +1,6 @@
 /**
  * MIT License
- * Copyright (c) [2024] [Codeishot]
+ * Copyright (c) 2024 Codeishot
  * Giovanni D'Andrea => @gdjohn4s
  * Flavio Adamo => @FlavioAdamo
  * Gianluca Andretta => @gnlca

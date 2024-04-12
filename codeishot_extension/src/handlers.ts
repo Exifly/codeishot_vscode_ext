@@ -2,8 +2,9 @@
  * Defines various handlers for this vscode extension.
  */
 
-import { window, Uri, type Disposable } from "vscode";
-import { updateUserConfiguration } from "./utils";
+import { updateUserConfiguration, updateConfiguration } from "./utils";
+import { window, Uri, type Disposable, ConfigurationTarget } from "vscode";
+import { isAuthApproved } from "./preferences";
 
 export const loginUriHandler: Disposable = window.registerUriHandler({
   handleUri(uri: Uri) {
@@ -12,6 +13,13 @@ export const loginUriHandler: Disposable = window.registerUriHandler({
       if (jwtParam) {
         window.showInformationMessage("Logged Successfully! ✨");
         updateUserConfiguration(jwtParam);
+
+        if (!isAuthApproved())
+          updateConfiguration(
+            "Authentication",
+            true,
+            ConfigurationTarget.Global
+          );
       }
     }
   },

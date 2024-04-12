@@ -19,6 +19,14 @@ function useConfig(): WorkspaceConfiguration {
   return config;
 }
 
+function updateConfiguration(
+  section: string,
+  value: string | number | boolean,
+  target: ConfigurationTarget
+) {
+  workspace.getConfiguration().update(section, value, target);
+}
+
 function updateUserConfiguration(token: string) {
   workspace.getConfiguration().update("jwt", token, ConfigurationTarget.Global);
 }
@@ -39,4 +47,9 @@ function getTokenFromConfiguration(): string {
   return token;
 }
 
-export { useConfig, updateUserConfiguration, getTokenFromConfiguration };
+export {
+  useConfig,
+  updateUserConfiguration,
+  updateConfiguration,
+  getTokenFromConfiguration,
+};
