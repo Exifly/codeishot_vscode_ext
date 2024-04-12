@@ -1,3 +1,9 @@
+# v0.5.6
+## Fixes:
+- The default authentication settings is now configured as **True**
+## What's Changed
+* fix: Configured the Auth settings to true when logged correctly by @gdjohn4s in https://github.com/Exifly/codeishot_vscode_ext/pull/6
+
 # v0.5.0
 
 ## Features:
