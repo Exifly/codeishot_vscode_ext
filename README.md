@@ -41,7 +41,7 @@ To login into Codeishot:
 3. Click on `Login to Codeishot ✨`.
 4. Follow the Flow.
 
-![login](./assets/cmd_palette.png)
+![login](./assets/cmd_login.png)
 
 ## Configuration
 
