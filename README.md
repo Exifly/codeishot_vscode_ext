@@ -92,4 +92,4 @@ For support or queries, reach out to one of the maintainers.
 
 ---
 
-Codeishot © [2024] by [Codeishot]
+_Codeishot © 2024_
