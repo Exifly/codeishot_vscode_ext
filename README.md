@@ -45,6 +45,22 @@ To login into Codeishot:
 
 ## Configuration
 
+Extension Settings:
+
+```json
+/* settings.json */
+{
+  "Authentication": true,
+  "jwt": ""
+}
+```
+
+Or by using the settings user interface:
+
+![user_interface](./assets/user_interface.png)
+
+**`config.ts` Parameters**
+
 - **Base URL**: Set to `https://codeishot.com` by default. Change it in the code if you're using a different server.
 - **API Endpoint**: The extension posts to `https://api.codeishot.com`.
 
