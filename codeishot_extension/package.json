@@ -33,9 +33,6 @@
       "editor/context": [
         {
           "command": "extension.postSnippet"
-        },
-        {
-          "command": "extension.login"
         }
       ]
     },
@@ -54,13 +51,18 @@
       }
     ],
     "configuration": {
-      "type": "string",
+      "type": "object",
       "title": "Codeishot",
       "properties": {
           "jwt": {
               "type": "string",
               "default": "",
               "description": "Token to login into codeishot."
+          },
+          "Authentication": {
+            "type": "boolean",
+            "default": false,
+            "description": "Choose whether to authenticate the snippets or not."
           }
       }
   }

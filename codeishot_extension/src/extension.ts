@@ -1,166 +1,37 @@
-import * as vscode from "vscode";
-import * as path from "path";
-import { createSnippet } from "./services/codeishotServices";
-import { saveToken, login } from "./login";
+/**
+ * MIT License
+ * Copyright (c) [2024] [Codeishot]
+ * Giovanni D'Andrea => @gdjohn4s
+ * Flavio Adamo => @FlavioAdamo
+ * Gianluca Andretta => @gnlca
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
-const UI_BASE_URL: string = process.env.UI_BASE_URL || "https://codeishot.com";
+import { loginCommand, createSnippetCommand } from "./commands";
+import { type ExtensionContext } from "vscode";
+import { loginUriHandler } from "./handlers";
 
-interface PostData {
-  title: string;
-  code: string;
-  style: string;
-  language: string;
-}
-
-interface Snippet {
-  id: string;
-  title: string;
-  language: string;
-  style: string;
-  code: string;
-  createdAt: string;
-  editedAt: string;
-}
-
-function getSelectedText(editor: vscode.TextEditor): string | null {
-  const selection = editor.selection;
-  const text = editor.document.getText(selection);
-
-  if (!text) {
-    vscode.window.showErrorMessage("No text selected");
-    return null;
-  }
-
-  return text;
-}
-
-function getCurrentFileName(): string | null {
-  const editor = vscode.window.activeTextEditor;
-  if (editor) {
-    const document = editor.document;
-    const fullPath = document.fileName;
-    return path.basename(fullPath);
-  }
-  return null;
-}
-
-function getLanguageIdentifier(): string | null {
-  const editor = vscode.window.activeTextEditor;
-  if (editor) {
-    const languageId = editor.document.languageId;
-    return languageId;
-  }
-  return null;
-}
-
-function checkCreateSnippetStatusCode(status: number, data: PostData) {
-  switch (status) {
-    case 400:
-      vscode.window.showWarningMessage(
-        "This language is not available, sending snippet as a Plain Text"
-      );
-      const newRes = postSnippetWithValidatedData(data);
-      return newRes;
-    case 429:
-      vscode.window.showErrorMessage("Too many requests!");
-      break;
-    default:
-      break;
-  }
-}
-
-async function postSnippet(data: PostData): Promise<Snippet> {
-  let res = await createSnippet(data);
-  if (res.status_code) checkCreateSnippetStatusCode(res.status_code, data);
-  return res.data as Promise<Snippet>;
-}
-
-async function postSnippetWithValidatedData(data: PostData): Promise<Snippet> {
-  let plainTextData: PostData = { ...data };
-  plainTextData.language = "plaintext";
-
-  return await createSnippet(plainTextData)
-    .then((res) => res.data)
-    .catch(() => {
-      vscode.window.showWarningMessage("Please try again!");
-    });
-}
-
-async function handlePostResponse(data: Snippet) {
-  if (data && data.id) {
-    const snippetUrl = `${UI_BASE_URL}/${data.id}`;
-    try {
-      await vscode.env.clipboard.writeText(snippetUrl);
-      vscode.window.showInformationMessage("URL copied to clipboard");
-    } catch (error) {
-      vscode.window.showErrorMessage("Error copying URL: " + error);
-    }
-
-    const infoMessage = await vscode.window.showInformationMessage(
-      snippetUrl,
-      "Open URL"
-    );
-    if (infoMessage === "Open URL") {
-      vscode.env.openExternal(vscode.Uri.parse(snippetUrl));
-    }
-  }
-}
-
-function activate(context: vscode.ExtensionContext) {
-  let disposable = vscode.commands.registerCommand(
-    "extension.postSnippet",
-    async () => {
-      const editor = vscode.window.activeTextEditor;
-      if (!editor) {
-        vscode.window.showErrorMessage("No editor found");
-        return;
-      }
-
-      const text = getSelectedText(editor);
-      if (!text) {
-        return;
-      }
-
-      const postData: PostData = {
-        title: getCurrentFileName() || "untitled",
-        code: text,
-        language: getLanguageIdentifier() || "python",
-        style: "androidstudio",
-      };
-
-      try {
-        const data = await postSnippet(postData);
-        await handlePostResponse(data);
-      } catch (error: any) {
-        vscode.window.showErrorMessage("Error: " + error.message);
-      }
-    }
-  );
-
-  const loginCommand = vscode.commands.registerCommand(
-    "extension.login",
-    () => {
-      login();
-    }
-  );
-
-  context.subscriptions.push(disposable);
+function activate(context: ExtensionContext) {
+  context.subscriptions.push(createSnippetCommand);
   context.subscriptions.push(loginCommand);
-  context.subscriptions.push(
-    // vscode://codeishot.codeishot/login?jwt=<token>
-    // TODO: @Cleanup => Move to another file, maybe `handlers.ts`?
-    vscode.window.registerUriHandler({
-      handleUri(uri: vscode.Uri) {
-        if (uri.path === "/login") {
-          const jwtParam = uri.query.split("=")[1];
-          if (jwtParam) {
-            saveToken(jwtParam);
-            vscode.window.showInformationMessage("Logged Successfully! ✨");
-          }
-        }
-      },
-    })
-  );
+  context.subscriptions.push(loginUriHandler);
 }
 
 function deactivate() {}
