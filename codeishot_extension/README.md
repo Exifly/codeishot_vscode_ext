@@ -32,7 +32,7 @@ To use Codeishot:
 5. The URL of the posted snippet is automatically copied to your clipboard.
 6. Optionally, click on the pop-up message to open the snippet URL in a browser.
 
-![palette](./assets/cmd_palette.png)
+![palette](../assets/cmd_palette.png)
 
 To login into Codeishot:
 
